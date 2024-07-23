@@ -65,8 +65,8 @@ const { data, isLoading, isError, refetch, isFetching } = useQuery({
     sorting, //refetch when sorting changes
   ],
   queryFn: async () => {
-    //const fetchURL = new URL(`${import.meta.env.VITE_APP_BASE_URL}/users`);
-    const fetchURL = new URL(`http://localhost:8989/users`);
+    const fetchURL = new URL(`${import.meta.env.VITE_APP_BASE_URL}/users`);
+    //const fetchURL = new URL(`http://localhost:8989/users`);
     fetchURL.searchParams.set(
       'start',
       `${pagination.pageIndex * pagination.pageSize}`,
