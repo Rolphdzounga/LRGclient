@@ -26,7 +26,7 @@ const Acceuil = () => {
       className="absolute bg-green-800 inset-x-0 top-0"
     ></div>
     <div className="z-10 flex justify-between">
-        <div>
+        <div className='ml-2 mt-2'>
           <Avatar alt="logoLRG" src={IMAGES.logoLRG} sx={{ width: 200, height: 200 }}  />
         </div>
         <div></div>
