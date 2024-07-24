@@ -174,7 +174,14 @@ export default  function Review({getValues}) {
                 </div>
               </Stack>
             </Grid>
-
+            <Grid item xs={4} marginTop="1.4rem">
+              <Stack direction={"column"}>
+                <div className="reviewTitle">Département</div>
+                <div style={{ overflowWrap: "break-word", width: "90%" }}>
+                  {getValues.departementmilitantime}
+                </div>
+              </Stack>
+            </Grid>
             <Grid item xs={4} marginTop="1.4rem">
               <Stack direction={"column"}>
                 <div className="reviewTitle">Commune</div>
@@ -185,7 +192,14 @@ export default  function Review({getValues}) {
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-
+            <Grid item xs={4} marginTop="1.4rem">
+              <Stack direction={"column"}>
+                <div className="reviewTitle">Canton</div>
+                <div>
+                  {getValues.cantonmilitantisme}
+                </div>
+              </Stack>
+            </Grid>
             <Grid item xs={6} marginTop="1.4rem">
               <Stack direction={"column"}>
                 <div className="reviewTitle">Centre de vote</div>

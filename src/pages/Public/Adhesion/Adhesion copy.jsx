@@ -541,9 +541,60 @@ fullWidth
 
 
 
+<div className="my-4">
+<Stack spacing={2} width='500px'>
+<Autocomplete
+id="departementmilitantime"
+getOptionLabel={(getDepartement) => `${getDepartement}`}
+options={getDepartement}
+onChange={(event, value) => {
+    console.log('departementmilitantime',value)
+    /*let cantons = cantons.filter((state) => state.province === value);
+    cantons = [...new Set(cantons.map((item) => item.label))];
+    cantons.sort();
+    setCanton(cantons);*/
+    setFieldValue('departementmilitantime',value)
+  }}
+value={values.departementmilitantime}
+isOptionEqualToValue={(option, value) => option.name === value.name}
+noOptionsText={"No Available Data"}
+renderOption={(props, getDepartement) => (
+<Box component="li" {...props} key={getDepartement} value={getCounty}>
+{getDepartement}
+</Box>
+)}
+renderInput={(params) => <TextField2 {...params} label="Département où vous militez" />}
+/>
+</Stack>
+</div>
 
+<div className="my-4">
+<Stack spacing={2} width='500px'>
+<Autocomplete
+id="city"
+value={values.cantonmilitantisme}
+getOptionLabel={(getState) => `${getState}`}
+options={getState}
+isOptionEqualToValue={(option, value) => option.name === value.name}
+onChange={(event, value) => {
+    console.log('cantonmilitantisme',value)
+    /*let cantons = cantons.filter((state) => state.province === value);
+    cantons = [...new Set(cantons.map((item) => item.label))];
+    cantons.sort();
+    setCanton(cantons);*/
+    setFieldValue('cantonmilitantisme',value)
+  }}
+noOptionsText={"No Available User"}
+renderOption={(props, getState) => (
+<Box component="li" {...props} key={getState}>
+{getState}
+</Box>
+)}
+renderInput={(params) => <TextField2 {...params} label="Canton où vous militez" />}
+/>    
+</Stack>
 
-
+</div>
 </Grid>
 
 {/* <Autocomplete /> */}
