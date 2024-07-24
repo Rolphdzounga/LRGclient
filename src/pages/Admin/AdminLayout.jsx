@@ -11,7 +11,7 @@ const AdminLayout = () => {
         <Menu>
           <MenuItem> Tableau de bord </MenuItem>
           <SubMenu label="Gestion Adherents">
-            <MenuItem> <Link to='/admin/adherent' >Liste des adherents</Link></MenuItem>
+            <MenuItem> Liste des adherents</MenuItem>
             <MenuItem> Ajouter un adherent</MenuItem>
             <MenuItem> Editer un adherent</MenuItem>
           </SubMenu>
@@ -22,10 +22,7 @@ const AdminLayout = () => {
           </SubMenu>
           
           <MenuItem> 
-          <Button  onClick={()=>{
-          accountService.logout()
-          navigate('/')
-        }} >Quitter</Button>
+
           
            </MenuItem>
         </Menu>

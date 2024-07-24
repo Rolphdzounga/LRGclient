@@ -42,7 +42,7 @@ const ExportExcel = ({ excelData, fileName }) => {
           style={{ cursor: "pointer", fontSize: 14 }}
           startIcon={<FileDownloadIcon />}
         >
-          Export Excel
+          TELECHARGEZ AU FORMAT EXCEL
         </Button>
       </Tooltip>
     </>

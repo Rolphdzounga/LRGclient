@@ -15,7 +15,7 @@ const AdminRouter = () => {
   return (
     <Routes>
         <Route path='/' element={<AdminLayout/>} >
-          <Route index element={<Acceuil/>} />
+          <Route index element={<Adherent categ="" champ={adherentGrid}  titre="LISTE DES ADHERENTS" url={`${import.meta.env.VITE_APP_BASE_URL}/adherents`}/>}  />
           <Route path='/dashboard' element={<Dashboard/>} />
           <Route path='/adherent'>
             <Route index element={<Adherent categ="" champ={adherentGrid}  titre="LISTE DES ADHERENTS" url={`${import.meta.env.VITE_APP_BASE_URL}/adherents`}/>} />

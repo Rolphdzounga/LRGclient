@@ -82,11 +82,11 @@ const Adhesion = () => {
         noms:"",
         email:"",
         telephone:'',
-        paysmilitantisme:"Gabon",
+        paysmilitantisme:"",
         provincemilitantisme:"",
         communemilitantisme:"",
         arrmilitantisme:"",
-        villagemilitantisme:"mon village",
+        villagemilitantisme:"",
         cantonmilitantisme:"",
         departementmilitantime:"",
         centrevotemilitantisme:"",
@@ -111,6 +111,7 @@ const soumettreForm = async (data) =>{
     try{
       /*const response = await axios.post('http://localhost:8888/api/v1/ajouterAdherent',data )  {`${import.meta.env.VITE_APP_BASE_URL}/adherents`}
       console.log('localhost:8888/api/v1/ajouterAdherent__',response)*/
+      console.log(`${import.meta.env.VITE_APP_BASE_URL}/adherents_________`)
       const response2 = await axios.put(`${import.meta.env.VITE_APP_BASE_URL}/adherents`,data )
        console.log(response2)
        setCurrentStep(prev=>prev + 1)
@@ -118,9 +119,9 @@ const soumettreForm = async (data) =>{
       //ignIn({})
       //localStorage.setItem("token", response.data.accessToken);
     }catch(err){
-        if(err && err.instanceof.AxiosError)
-            setError(err.response?.data.message)
-        else if (err && err.instanceof.Error) setError(err.message)
+        if(err && err?.instanceof?.AxiosError)
+            setError(err.response?.data?.message)
+        else if (err && err?.instanceof?.Error) setError(err?.message)
     }
 
 }
@@ -541,60 +542,9 @@ fullWidth
 
 
 
-<div className="my-4">
-<Stack spacing={2} width='500px'>
-<Autocomplete
-id="departementmilitantime"
-getOptionLabel={(getDepartement) => `${getDepartement}`}
-options={getDepartement}
-onChange={(event, value) => {
-    console.log('departementmilitantime',value)
-    /*let cantons = cantons.filter((state) => state.province === value);
-    cantons = [...new Set(cantons.map((item) => item.label))];
-    cantons.sort();
-    setCanton(cantons);*/
-    setFieldValue('departementmilitantime',value)
-  }}
-value={values.departementmilitantime}
-isOptionEqualToValue={(option, value) => option.name === value.name}
-noOptionsText={"No Available Data"}
-renderOption={(props, getDepartement) => (
-<Box component="li" {...props} key={getDepartement} value={getCounty}>
-{getDepartement}
-</Box>
-)}
-renderInput={(params) => <TextField2 {...params} label="Département où vous militez" />}
-/>
-</Stack>
-</div>
 
-<div className="my-4">
-<Stack spacing={2} width='500px'>
-<Autocomplete
-id="city"
-value={values.cantonmilitantisme}
-getOptionLabel={(getState) => `${getState}`}
-options={getState}
-isOptionEqualToValue={(option, value) => option.name === value.name}
-onChange={(event, value) => {
-    console.log('cantonmilitantisme',value)
-    /*let cantons = cantons.filter((state) => state.province === value);
-    cantons = [...new Set(cantons.map((item) => item.label))];
-    cantons.sort();
-    setCanton(cantons);*/
-    setFieldValue('cantonmilitantisme',value)
-  }}
-noOptionsText={"No Available User"}
-renderOption={(props, getState) => (
-<Box component="li" {...props} key={getState}>
-{getState}
-</Box>
-)}
-renderInput={(params) => <TextField2 {...params} label="Canton où vous militez" />}
-/>    
-</Stack>
 
-</div>
+
 </Grid>
 
 {/* <Autocomplete /> */}
