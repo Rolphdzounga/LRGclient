@@ -2,7 +2,7 @@
 
 const Erreur = () => {
   return (
-    <div>Erreur</div>
+    <div>Erreur! ce chemin n'existe pas</div>
   )
 }
 
