@@ -7,26 +7,9 @@ const AdminLayout = () => {
   let navigate = useNavigate()
   return (
     <div className='grid grid-cols-10 gap-2'>
-      <Sidebar className='h-screen col-span-2 max-w-4xl mt-6' >
-        <Menu>
-          <MenuItem> Tableau de bord </MenuItem>
-          <SubMenu label="Gestion Adherents">
-            <MenuItem> Liste des adherents</MenuItem>
-            <MenuItem> Ajouter un adherent</MenuItem>
-            <MenuItem> Editer un adherent</MenuItem>
-          </SubMenu>
-          <SubMenu label="Gestion Utilisateurs">
-            <MenuItem> Liste des utilisateurs</MenuItem>
-            <MenuItem> Ajouter un utilisateur</MenuItem>
-            <MenuItem> Editer un utilisateur</MenuItem>
-          </SubMenu>
-          
-          <MenuItem> 
+      <div className='h-screen col-span-2 max-w-4xl mt-6' >
 
-          
-           </MenuItem>
-        </Menu>
-      </Sidebar>
+      </div>
        <div className='col-span-8'>
        <Outlet/>
        </div>

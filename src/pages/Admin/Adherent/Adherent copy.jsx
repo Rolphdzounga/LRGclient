@@ -87,7 +87,52 @@ const { data, isLoading, isError, refetch, isFetching } = useQuery({
 console.log('data_____________',data)
   return (
     <Box m="1.5rem 2.5rem">
-      <Box
+      <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+      <Header title={titre}  />
+      <MaterialReactTable
+          columns={columns}
+          data={data?.data ?? []}
+          initialState={{ showColumnFilters: false ,columnVisibility: { MOTIF: false,
+            "Solde Dispo": false,
+            Creation: false,
+            Compte: false,
+            Canal: false,
+            "#Credit": false,
+            "#Debit": false,
+            FICHIER: false, } }}
+          manualFiltering
+          manualPagination
+          manualSorting
+          layoutMode="grid"
+          enableColumnOrdering
+          enableColumnResizing
+          enableStickyHeader
+          enableColumnActions={false}
+          localization={MRT_Localization_FR}
+          muiTableHeadCellProps={{
+            align: "center",
+            sx: (theme) => ({
+              borderRight: "1px solid rgba(224,224,224,1)",
+             // background: theme.palette.text.primary,
+              color: '#212E53'//theme.palette.text.secondary,
+            }),
+          }}
+          muiTableBodyCellProps={{
+            align: "center",
+            sx: {
+              borderRight: "1px solid rgba(224,224,224,1)",
+            },
+          }}
+          //enablePagination={true}
+          enableRowSelection
+          positionToolbarAlertBanner="bottom"
+          onColumnFiltersChange={setColumnFilters}
+          onGlobalFilterChange={setGlobalFilter}
+          onPaginationChange={setPagination}
+
+          onSortingChange={setSorting}
+          renderTopToolbarCustomActions={({ table }) => (
+            <Box
               sx={{
                 display: "flex",
                 gap: "1rem",
@@ -95,11 +140,44 @@ console.log('data_____________',data)
                 flexWrap: "wrap",
               }}
             >
-
+              <Tooltip arrow title="Refresh Data">
+                <IconButton onClick={() => refetch()}>
+                  <RefreshIcon />
+                </IconButton>
+              </Tooltip>
               <ExportExcel excelData={data?.data} fileName={"Excel Export"} />
-
+              <Button
+                disabled={
+                  !table.getIsSomeRowsSelected() &&
+                  !table.getIsAllRowsSelected()
+                }
+                //only export selected rows
+                onClick={() =>
+                  exportToExcel(
+                    table.getSelectedRowModel().rows.map((row) => row.original)
+                  )
+                }
+                startIcon={<FileDownloadIcon />}
+                variant="contained"
+              >
+                Export Selected Rows
+              </Button>
               
             </Box>
+          )}
+          rowCount={data?.meta?.totalRowCount ?? 0}
+          state={{
+            columnFilters,
+            globalFilter,
+            isLoading,
+            pagination,
+            showAlertBanner: isError,
+            showProgressBars: isFetching,
+            sorting,
+          }}
+        />
+       
+        </div>
     </Box>
   );
 };
