@@ -1,8 +1,9 @@
-import React, {  useState } from 'react'
-import {Formik , Form, Field, } from 'formik'
+import React, { useEffect, useState } from 'react'
+import {Formik , Form, Field, ErrorMessage} from 'formik'
 import * as Yup from 'yup'
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
+
+//import { Input as Input2} from '@settlin/formik-mui';
+//import { FormikTextField } from 'formik-material-fields';
 import Terminus from './Terminus'
 import styles from "./Username.module.css";
 import {
@@ -15,9 +16,9 @@ import {
   Radio,
   RadioGroup,
   FormLabel,
-
+  Button,
   Typography,
-
+  Stack,
   Autocomplete,
   Box,
   TextField as TextField2,
@@ -34,11 +35,11 @@ import 'dayjs/locale/fr';
 import {
   TextField,
   Select,
-  
+  Checkbox,
 } from 'formik-mui';
 //import {TimePicker, DatePicker, DateTimePicker} from 'formik-mui-lab';
 import {  DatePicker } from '@mui/x-date-pickers'
-import { UpperCasingTextField} from './UpperCasingTextField';
+import {MonTextField, UpperCasingTextField} from './UpperCasingTextField';
 
 //import "react-country-state-city/dist/react-country-state-city.css";
 /*import {
@@ -49,12 +50,14 @@ import { UpperCasingTextField} from './UpperCasingTextField';
  // import "react-country-state-city/dist/react-country-state-city.css";
 
 import axios from 'axios';
+import DropdownPays from './DropdownPays';
+import Ddn from './Ddn';
 import Review from './Review';
 import convertToBase64 from './convert';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import styled from 'styled-components';
 import { departements, provinces, villes } from './data';
-import dayjs from 'dayjs';
+import { deepPurple } from '@mui/material/colors';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -75,32 +78,6 @@ const Adhesion = () => {
     //provinceResidence:"",
     //villeResidence:"",
     const [data,setData] = useState({
-        accordadherent: true,
-        adresse: "2241",
-        arrmilitantisme: "6",
-        cantonmilitantisme: "",
-        centrevotemilitantisme: "ECOLE DRAGAGE",
-        communemilitantisme: "Libreville",
-        datenaissance: "Sun Jul 26 1998 00:00:00 GMT+0100 (heure normale d’Afrique de l’Ouest)" ,
-        dateversement: "Fri Jul 05 2024 00:00:00 GMT+0100 (heure normale d’Afrique de l’Ouest)" ,
-        departementmilitantime: "Komo Mondah",
-        email: "adriama2@gmail.com",
-        lieunaissance: "GAMBA",
-        montantquotisation: "10000",
-        noms: "MAGANGA2",
-        numpieceidentite: "NIP-7854219865322",
-        paysmilitantisme: "Gabon",
-        photo: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAeAB4AA",
-        pieceidentite: "NIP",
-        prenoms: "ADRIAM",
-        profession: "Banquier",
-        provincemilitantisme: "G1-Estuaire",
-        sexe: "F",
-        signature: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARQ",
-        telephone: "04878738",
-        villagemilitantisme: "mon village",
-    })
-    /*const [data,setData] = useState({
         prenoms:"",
         noms:"",
         email:"",
@@ -125,22 +102,8 @@ const Adhesion = () => {
         datenaissance:'',
         dateversement:'',
         signature:''
-    })*/
-    const [loader, setLoader] = React.useState(false)
-    const telecharger = ()=>{
-        const capture = document.querySelector('.docAdherent')
-        setLoader(true)
-        html2canvas(capture).then((canvas)=>{
-          const imgData = canvas.toDataURL('img/png')
-          const doc = new jsPDF('p','mm','a4')
-          const componentWidth = doc.internal.pageSize.getWidth() - 10
-          const componentHeight = doc.internal.pageSize.getHeight() - 10
-          doc.addImage(imgData,'PNG',5,5,componentWidth,componentHeight)
-          setLoader(false)
-          console.log(componentWidth,componentHeight)
-          doc.save(`Fiche_adhesion_${Date.now()}.pdf`)
-        })
-      }
+    })
+
 // Soummettre le formulaire
 const soumettreForm = async (data) =>{
     console.log('___Form envoyé___',data)
@@ -165,7 +128,6 @@ const soumettreForm = async (data) =>{
  const handleNextStep = (newData, final = false) =>{
     setData(prev => ({...prev,...newData}))
     if(final){
-        telecharger()
         soumettreForm(data)
     }else{
 
@@ -231,12 +193,6 @@ const stepTwoValidationSchema = Yup.object({
     provincemilitantisme: Yup.string().required('Cette informations est obligatoire'),
     communemilitantisme: Yup.string().required('Cette informations est obligatoire'),
     centrevotemilitantisme: Yup.string().required('Cette informations est obligatoire'),
-
-})
-const step3ValidationSchema = Yup.object({
-    montantquotisation: Yup.string().required('Cette informations est obligatoire'),
-    signature: Yup.string().required('Cette informations est obligatoire'),
-    dateversement: Yup.string().required('Cette informations est obligatoire'),
 
 })
 
@@ -341,9 +297,9 @@ const StepOne_ = (props)=>{
                                            name="datenaissance"
                                             label="Date de naissance"
                                             disableFuture
-                                            defaultValue={dayjs(values.datenaissance)}
-                                            onChange={(e)=>setFieldValue("datenaissance",e.$d)}
-
+                                           onChange={(e)=>setFieldValue("datenaissance",e.$d)}
+                                           //onChange={(e)=>console.log('___',e.$d)}
+                                            //helperText="Saisir votre nom"
                                     />   
                                     </Grid>
                                     <Grid item xs={8}>
@@ -411,8 +367,8 @@ const StepOne_ = (props)=>{
                                         //value={value}
                                         onChange={(e)=>setFieldValue('sexe',e.target.value)}
                                     >
-                                        <FormControlLabel value="F" checked={values.sexe == 'F'} control={<Radio />} label="Femme" />
-                                        <FormControlLabel value="H" checked={values.sexe == 'H'} control={<Radio />} label="Homme" />
+                                        <FormControlLabel value="F" control={<Radio />} label="Femme" />
+                                        <FormControlLabel value="H" control={<Radio />} label="Homme" />
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>
@@ -430,13 +386,10 @@ const StepOne_ = (props)=>{
                                                 multiple={false}
                                                 //inputProps={{name: 'tags', id: 'tags'}}
                                                 onChange={(e)=>setFieldValue("pieceidentite",e.target.value)}
-                                                value={values.pieceidentite}
                                                 
                                             >
-                                                <MenuItem value={"NIP"}>NIP</MenuItem>
-                                                <MenuItem value={"CNI"}>CNI</MenuItem>
-                                                <MenuItem value={"CNIE"}>CNIE</MenuItem>
-                                                <MenuItem value={"Passport"}>Passport</MenuItem>
+                                                <MenuItem value={"cni"}>CNI</MenuItem>
+                                                <MenuItem value={"passport"}>Passport</MenuItem>
                                             </Field>
                                         </FormControl>
                                     </Grid>
@@ -448,11 +401,12 @@ const StepOne_ = (props)=>{
 
                         </Grid>
 
+
                         <div className='px-[20px]'  style={{ display: 'flex', marginTop:50, justifyContent:'space-between' }}>
                             {/**next button */}
-                            {Object.keys(errors).length == 0 && <button className='bg-green-500 text-white uppercase py-2 px-4 rounded-xl font-semibold cursor-pointer  hover:bg-slate-700 hover:text-white transition duration-200 ease-in-out' type='submit'> 
+                            <button className='bg-green-500 text-white uppercase py-2 px-4 rounded-xl font-semibold cursor-pointer  hover:bg-slate-700 hover:text-white transition duration-200 ease-in-out' type='submit'> 
                             suivant
-                            </button>}
+                            </button>
                         </div>
                 
                     </Form>
@@ -488,7 +442,7 @@ const StepTwo = (props)=>{
             <div className='px-[20px] py-8'>
         <Formik validationSchema={stepTwoValidationSchema} initialValues={props.data} onSubmit={handleSubmit}>
             {
-                ({errors,values,setFieldValue})=>(
+                ({values,setFieldValue})=>(
                     <Form>
 
 
@@ -498,7 +452,7 @@ const StepTwo = (props)=>{
 
 
 
-                                  
+<Grid item xs={12}>                                    
 
 <div className="my-4">
 <Grid item xs={4}>
@@ -533,128 +487,163 @@ renderInput={(params) => <TextField2 {...params} label="Province où vous milite
 />
 </Grid>
 </div>
+<div className="my-4">
+<Stack spacing={2} >
+<Autocomplete
+id="city"
+getOptionLabel={(getState) => `${getState}`}
+options={getState}
+onChange={(event, value) => {
+    console.log('Autocomplete_',value)
+    setFieldValue('communemilitantisme',value)
+  }}
+value={values.communemilitantisme}
+isOptionEqualToValue={(option, value) => option.name === value.name}
+noOptionsText={"No Available User"}
+renderOption={(props, getState) => (
+<Box component="li" {...props} key={getState}>
+{getState}
+</Box>
+)}
+renderInput={(params) => <TextField2 {...params} label="Commune où vous militez" />}
+/>    
+</Stack>
 
-
-
-
+</div>
 <Grid item xs={12}>
-    <Grid container spacing={2} className="align-items-center">
-        <Grid item xs={6}>
-            
-
-            <Autocomplete
-                id="city"
-                getOptionLabel={(getState) => `${getState}`}
-                options={getState}
-                onChange={(event, value) => {
-                    console.log('Autocomplete_',value)
-                    setFieldValue('communemilitantisme',value)
-                }}
-                value={values.communemilitantisme}
-                isOptionEqualToValue={(option, value) => option.name === value.name}
-                noOptionsText={"No Available User"}
-                renderOption={(props, getState) => (
-                <Box component="li" {...props} key={getState}>
-                {getState}
-                </Box>
-                )}
-                renderInput={(params) => <TextField2 {...params} label="Commune où vous militez" />}
-                />   
-        </Grid>
-
-        <Grid item xs={6}>
-            
-                <Field 
-                component={TextField2} 
-                value={values.arrmilitantisme}
-                name="arrmilitantisme"
-                label="Arrondissement où vous militez"
-                onChange={(e)=>setFieldValue("arrmilitantisme",e.target.value)}
-                //onChange={(e)=>console.log('___',e.$d)}
-                //helperText="Saisir votre nom"
-                />  
-                
-        </Grid>
-
-    </Grid>
+<Grid container spacing={2} className="align-items-center">
+<Grid item xs={4}>
+<Field 
+component={TextField2} 
+value={values.arrmilitantisme}
+name="arrmilitantisme"
+label="Arrondissement où vous militez"
+onChange={(e)=>setFieldValue("arrmilitantisme",e.target.value)}
+//onChange={(e)=>console.log('___',e.$d)}
+//helperText="Saisir votre nom"
+/>   
+</Grid>
+<Grid item xs={8}>
+<Grid item  className='w-full'>
+<Field
+component={TextField2}
+name="centrevotemilitantisme"
+value={values.centrevotemilitantisme}
+label="Indiquez votre centre de vote"
+onChange={(e)=>setFieldValue("centrevotemilitantisme",e.target.value)}
+// helperText="Saisir votre lieu de naissance"
+fullWidth
+/>
+</Grid>      
+</Grid>
+</Grid>
 </Grid>
 
 
 
+<div className="my-4">
+<Stack spacing={2} width='500px'>
+<Autocomplete
+id="departementmilitantime"
+getOptionLabel={(getDepartement) => `${getDepartement}`}
+options={getDepartement}
+onChange={(event, value) => {
+    console.log('departementmilitantime',value)
+    /*let cantons = cantons.filter((state) => state.province === value);
+    cantons = [...new Set(cantons.map((item) => item.label))];
+    cantons.sort();
+    setCanton(cantons);*/
+    setFieldValue('departementmilitantime',value)
+  }}
+value={values.departementmilitantime}
+isOptionEqualToValue={(option, value) => option.name === value.name}
+noOptionsText={"No Available Data"}
+renderOption={(props, getDepartement) => (
+<Box component="li" {...props} key={getDepartement} value={getCounty}>
+{getDepartement}
+</Box>
+)}
+renderInput={(params) => <TextField2 {...params} label="Département où vous militez" />}
+/>
+</Stack>
+</div>
 
+<div className="my-4">
+<Stack spacing={2} width='500px'>
+<Autocomplete
+id="city"
+value={values.cantonmilitantisme}
+getOptionLabel={(getState) => `${getState}`}
+options={getState}
+isOptionEqualToValue={(option, value) => option.name === value.name}
+onChange={(event, value) => {
+    console.log('cantonmilitantisme',value)
+    /*let cantons = cantons.filter((state) => state.province === value);
+    cantons = [...new Set(cantons.map((item) => item.label))];
+    cantons.sort();
+    setCanton(cantons);*/
+    setFieldValue('cantonmilitantisme',value)
+  }}
+noOptionsText={"No Available User"}
+renderOption={(props, getState) => (
+<Box component="li" {...props} key={getState}>
+{getState}
+</Box>
+)}
+renderInput={(params) => <TextField2 {...params} label="Canton où vous militez" />}
+/>    
+</Stack>
 
-
-
-
-
-
-
+</div>
+</Grid>
 
 {/* <Autocomplete /> */}
-<div className="my-4">
 
-<Grid item xs={12} >
-    <Grid container spacing={2} className="align-items-center">
-        <Grid item xs={6}>
-            
 
-        <Autocomplete
-            id="departementmilitantime"
-            getOptionLabel={(getDepartement) => `${getDepartement}`}
-            options={getDepartement}
-            onChange={(event, value) => {
-                console.log('departementmilitantime',value)
-                /*let cantons = cantons.filter((state) => state.province === value);
-                cantons = [...new Set(cantons.map((item) => item.label))];
-                cantons.sort();
-                setCanton(cantons);*/
-                setFieldValue('departementmilitantime',value)
-            }}
-            value={values.departementmilitantime}
-            isOptionEqualToValue={(option, value) => option.name === value.name}
-            noOptionsText={"No Available Data"}
-            renderOption={(props, getDepartement) => (
-            <Box component="li" {...props} key={getDepartement} value={getCounty}>
-            {getDepartement}
-            </Box>
-            )}
-            renderInput={(params) => <TextField2 {...params} label="Département où vous militez" />}
-            />
-        </Grid>
 
-        <Grid item xs={6}>
 
-            <Grid item xs={12}>
-                <Grid item  className='w-full'>
-                    <Field
-                    component={UpperCasingTextField}
-                    name="cantonmilitantisme"
-                    label="Entrez le nom du canton"
-                    fullWidth
-                    />
-                </Grid>      
-            </Grid>
-   
-        </Grid>
 
-    </Grid>
-</Grid>
-</div>
-<div className="my-4">
-<Grid item xs={8}>
+                           
 
-    <Field
-    component={TextField2}
-    name="centrevotemilitantisme"
-    value={values.centrevotemilitantisme}
-    label="Indiquez votre centre de vote"
-    onChange={(e)=>setFieldValue("centrevotemilitantisme",e.target.value)}
-    // helperText="Saisir votre lieu de naissance"
-    fullWidth
-    />
-</Grid> 
-</div>                          
-
+                           {/**<div className="mt-8">
+                            <Grid item xs={12}>
+                                <Grid container spacing={2} className="align-items-center">
+                                    <Grid item xs={4}>
+                                        <FormControl fullWidth>
+                                            <Field
+                                                component={Select}
+                                                type="text"
+                                                name="arrondissementMilitantisme"
+                                                label="Arrondissement ou vous militez"
+                                                //helperText="Saisir l'arrondissement ou vous militez"
+                                                multiple={false}
+                                                //inputProps={{name: 'tags', id: 'tags'}}
+                                                onChange={(e)=>setFieldValue("arrondissementMilitantisme",e.target.value)}
+                                                
+                                            >
+                                                <MenuItem value={"1er"}>1er</MenuItem>
+                                                <MenuItem value={"2e"}>2e</MenuItem>
+                                                <MenuItem value={"3e"}>3e</MenuItem>
+                                                <MenuItem value={"4e"}>4e</MenuItem>
+                                                <MenuItem value={"5e"}>5e</MenuItem>
+                                                <MenuItem value={"6e"}>6e</MenuItem>
+                                            </Field>
+                                        </FormControl>
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        <Grid item  className='w-full '>
+                                            <Field
+                                            component={MonTextField}
+                                            name="villagemilitantisme"
+                                            label="Village ou vous militez"
+                                            helperText="Saisir le village ou vous militez"
+                                            fullWidth
+                                            />
+                                        </Grid>      
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            </div>*/}
 
                         <div className='flex justify-around mt-4 mb-8' style={{ display: 'flex', marginTop:50, justifyContent:'space-between' }}>
                             {/**back button */}
@@ -662,11 +651,9 @@ renderInput={(params) => <TextField2 {...params} label="Province où vous milite
                                 Précédent
                             </button>
                             {/**next button */}
-                            {console.log('SIZE ',Object.keys(errors))}
-                            {console.log('SIZE ',Object.keys(errors).length)}
-                            {Object.keys(errors).length == 0 && <button className='bg-green-500 text-white uppercase py-2 px-4 rounded-xl font-semibold cursor-pointer  hover:bg-slate-700 hover:text-white transition duration-200 ease-in-out' type='submit'> 
+                            <button className='bg-green-500 text-white uppercase py-2 px-4 rounded-xl font-semibold cursor-pointer  hover:bg-slate-700 hover:text-white transition duration-200 ease-in-out' type='submit'> 
                             Suivant
-                            </button>}
+                            </button>
                         </div>
 
                     </Form>
@@ -685,15 +672,13 @@ const StepTree= (props)=>{
     return(
         <Container>
             <div className='px-[20px] py-8'>
-        <Formik  validationSchema={step3ValidationSchema} initialValues={props.data} onSubmit={handleSubmit}>
+        <Formik initialValues={props.data} onSubmit={handleSubmit}>
             {
-                ({errors,values,setFieldValue})=>(
+                ({values,setFieldValue})=>(
                   
                     <Form>
                         <div className='mt-10 flex flex-col gap-3'>
                         <Grid item xs={12} >
-                        <Grid container spacing={2} className="align-items-center">
-                            <Grid item xs={6}>
                                 <FormControl className='mr-10' >
                                     <FormLabel id="demo-radio-buttons-group-label">Choisir Votre montant de quotisation</FormLabel>
                                     <RadioGroup 
@@ -703,36 +688,32 @@ const StepTree= (props)=>{
                                         //value={value}
                                         onChange={(e)=>setFieldValue('montantquotisation',e.target.value)}
                                     >
-                                        <FormControlLabel checked={values.montantquotisation == '10000'}  value="10000" control={<Radio />} label="Si vous avez un revenu (10.000fcfa)" />
-                                        <FormControlLabel checked={values.montantquotisation == '5000'}  value="5000" control={<Radio />} label="Si vous etes sans revenu (5.000fcfa)" />
+                                        <FormControlLabel value="10000" control={<Radio />} label="Si vous avez un revenu (10.000fcfa)" />
+                                        <FormControlLabel value="5000" control={<Radio />} label="Si vous etes sans revenu (5.000fcfa)" />
                                     </RadioGroup>
                                 </FormControl>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Field 
-                                        component={DatePicker} 
-                                        format="DD"
-                                        buttons={false}
-                                        disableYearPicker
-                                        disableMonthPicker
-                                        hideMonth
-                                        defaultValue={dayjs(values.dateversement)}
-                                        hideYear
-                                        hideWeekDays
-                                        views={['month', 'day']}
-                                        //maxDate={new Date(19,7,2024)}
-                                        name="dateversement"
-                                        label="Date du versement"
-                                        onChange={(e)=>setFieldValue("dateversement",e.$d)}
-                                    />   
-                                </Grid>
-                                </Grid>
                         </Grid>
-                        
+                        <Grid item xs={4}>
+                            <Field 
+                                component={DatePicker} 
+                                format="DD"
+                                buttons={false}
+                                disableYearPicker
+                                disableMonthPicker
+                                hideMonth
+                                hideYear
+                                hideWeekDays
+                                views={['month', 'day']}
+                                //maxDate={new Date(19,7,2024)}
+                                name="dateversement"
+                                label="Date du versement"
+                                onChange={(e)=>setFieldValue("dateversement",e.$d)}
+                            />   
+                        </Grid>
                         </div>
                         
                         
-                        <div className="profile flex flex-col justify-center py-4 my-5">
+                        <div className="profile flex flex-col justify-center py-4">
                                 <label htmlFor="profile">
                                     {
                                         values.signature &&  <img
@@ -760,13 +741,13 @@ const StepTree= (props)=>{
 
                             </Divider>
                             <div className='mt-5 flex '>
-                            <div className='items-start'>
-                            <label>
-                                <Field type="checkbox" name="accordadherent" />
-                                
-                            </label>
-                            </div>
-                            
+                        <div className='items-start'>
+                        <label>
+                            <Field type="checkbox" name="accordadherent" />
+                            {`${values.accordadherent}`}
+                        </label>
+                        </div>
+                        
                         <Typography variant="caption" display="block" gutterBottom >
                         
                         Je déclare par la présente souhaiter devenir membre de l'association LRG
@@ -781,8 +762,7 @@ const StepTree= (props)=>{
                                 Précédent
                             </button>
                             {/**next button */}
-                            {console.log('SIZE ',Object.keys(errors).length)}
-                            {Object.keys(errors).length == 0 && values.accordadherent && <button className='bg-green-500 text-white uppercase py-2 px-4 rounded-xl font-semibold cursor-pointer  hover:bg-slate-700 hover:text-white transition duration-200 ease-in-out' type='submit'> 
+                            {values.accordadherent && <button className='bg-green-500 text-white uppercase py-2 px-4 rounded-xl font-semibold cursor-pointer  hover:bg-slate-700 hover:text-white transition duration-200 ease-in-out' type='submit'> 
                             Suivant
                             </button>}
                             

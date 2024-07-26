@@ -2,9 +2,13 @@ import * as React from "react";
 import GrayBackgroundText from "../GrayBackgroundText";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
+import EditIcon from "@mui/icons-material/Edit";
+import styles from "../../Adhesion/Username.module.css"
+import { useFormContext } from "react-hook-form";
 import "./styles.css";
 import { Avatar, Grid } from "@mui/material";
 import IMAGES from "../../../../components/Images/Images";
+import { LocalPrintshop } from "@mui/icons-material";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import 'dayjs/locale/fr';
@@ -12,27 +16,11 @@ import dayjs from 'dayjs';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
 export default  function Review({getValues}) {
   //const { getValues } = useFormContext();
   console.log('getValues : ',getValues)
   console.log('getValues.dateversement_',getValues.dateversement)
   const [loader, setLoader] = React.useState(false)
-  const telecharger = ()=>{
-    const capture = document.querySelector('.docAdherent')
-    setLoader(true)
-    html2canvas(capture).then((canvas)=>{
-      const imgData = canvas.toDataURL('img/png')
-      const doc = new jsPDF('p','mm','a4')
-      const componentWidth = doc.internal.pageSize.getWidth() - 10
-      const componentHeight = doc.internal.pageSize.getHeight() - 10
-      doc.addImage(imgData,'PNG',5,5,componentWidth,componentHeight)
-      setLoader(false)
-      console.log(componentWidth,componentHeight)
-      doc.save(`Fiche_adhesion_${Date.now()}.pdf`)
-    })
-  }
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
     <div className="my-10">
@@ -44,10 +32,23 @@ export default  function Review({getValues}) {
             justifyContent: "space-between",
           }}
         >
-          <div>Résumé</div>
-          {loader ? (<span>...downloading</span>):(<span className='cursor-pointer' onClick={telecharger}>
+          <div>Review</div>
+          {loader ? (<span>...downloading</span>):(<span className='cursor-pointer' onClick={()=>{
+            const capture = document.querySelector('.docAdherent')
+            setLoader(true)
+            html2canvas(capture).then((canvas)=>{
+              const imgData = canvas.toDataURL('img/png')
+              const doc = new jsPDF('p','mm','a4')
+              const componentWidth = doc.internal.pageSize.getWidth() - 10
+              const componentHeight = doc.internal.pageSize.getHeight() - 10
+              doc.addImage(imgData,'PNG',5,5,componentWidth,componentHeight)
+              setLoader(false)
+              console.log(componentWidth,componentHeight)
+              doc.save(`Fiche_adhesion_${Date.now()}.pdf`)
+            })
+          }}>
             
-            Votre fiche sera téléchargée après votre validation
+            <CloudUploadIcon color="bg-white "/> Téléchargez
         </span>)}
           
         </div>
@@ -59,16 +60,7 @@ export default  function Review({getValues}) {
       </Divider>
       <div className="flex justify-between my-5">
       <Avatar alt={getValues.noms} src={getValues.photo} sx={{ width: 100, height: 100 }} />
-          <div className="text-xs text-center ">
-            <p>LE RENOUVEAU DU GABON</p>
-            <p>Siege: Ancienne SOBRAGA, derrière le Palais de Justice</p>
-            <p> <FacebookIcon/> LRG-association /<TwitterIcon/> LRG-association / email: associationlrggabon@gmail.com</p>
-            <p>BP.9115 - Tel:066071475/077235569/074867838(Whatsapp) - Libreville</p>
-          </div>
       <div>
-
-      
-
       <Avatar alt="logoLRG" src={IMAGES.logoLRG} sx={{ width: 100, height: 100 }} />
         
       </div>
@@ -191,33 +183,9 @@ export default  function Review({getValues}) {
                 </div>
               </Stack>
             </Grid>
-            <Grid item xs={4} marginTop="1.4rem">
-              <Stack direction={"column"}>
-                <div className="reviewTitle">Arrondissement</div>
-                <div style={{ overflowWrap: "break-word", width: "90%" }}>
-                  {getValues.arrmilitantisme}
-                </div>
-              </Stack>
-            </Grid>
           </Grid>
           <Grid container spacing={2}>
 
-            <Grid item xs={6} marginTop="1.4rem">
-              <Stack direction={"column"}>
-                <div className="reviewTitle">Département</div>
-                <div style={{ overflowWrap: "break-word", width: "90%" }}>
-                  {getValues.departementmilitantime}
-                </div>
-              </Stack>
-            </Grid>
-            <Grid item xs={6} marginTop="1.4rem">
-              <Stack direction={"column"}>
-                <div className="reviewTitle">Canton</div>
-                <div style={{ overflowWrap: "break-word", width: "90%" }}>
-                  {getValues.cantonmilitantisme}
-                </div>
-              </Stack>
-            </Grid>
             <Grid item xs={6} marginTop="1.4rem">
               <Stack direction={"column"}>
                 <div className="reviewTitle">Centre de vote</div>
@@ -225,8 +193,7 @@ export default  function Review({getValues}) {
                   {getValues.centrevotemilitantisme}
                 </div>
               </Stack>
-            </Grid>
-          </Grid>
+            </Grid></Grid>
         </div>
         
         {/* Preview Documents  */}
@@ -262,7 +229,7 @@ export default  function Review({getValues}) {
           
         </div>
         
-        <Divider textAlign="right" className="reviewDivider">
+        <Divider textAlign="left" className="reviewDivider">
           Signature
         </Divider>
         <div className="flex justify-end my-8">
