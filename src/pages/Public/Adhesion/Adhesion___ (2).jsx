@@ -74,7 +74,7 @@ const Adhesion = () => {
     //paysResidence:"",
     //provinceResidence:"",
     //villeResidence:"",
-    /*const [data,setData] = useState({
+    const [data,setData] = useState({
         accordadherent: true,
         adresse: "2241",
         arrmilitantisme: "6",
@@ -99,8 +99,8 @@ const Adhesion = () => {
         signature: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARQ",
         telephone: "04878738",
         villagemilitantisme: "mon village",
-    })*/
-    const [data,setData] = useState({
+    })
+    /*const [data,setData] = useState({
         prenoms:"",
         noms:"",
         email:"",
@@ -125,7 +125,7 @@ const Adhesion = () => {
         datenaissance:'',
         dateversement:'',
         signature:''
-    })
+    })*/
     const [loader, setLoader] = React.useState(false)
     const telecharger = ()=>{
         const capture = document.querySelector('.docAdherent')
