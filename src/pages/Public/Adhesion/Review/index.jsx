@@ -237,7 +237,7 @@ export default  function Review({getValues}) {
           <Grid container spacing={2}>
           <Grid item xs={4} marginTop="1.4rem">
               <Stack direction={"column"}>
-                <div className="reviewTitle">Montant quotisation</div>
+                <div className="reviewTitle">Montant cotisation</div>
                 <div>{getValues.montantquotisation}</div>
               </Stack>
             </Grid>
