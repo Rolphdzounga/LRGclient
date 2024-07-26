@@ -695,7 +695,7 @@ const StepTree= (props)=>{
                         <Grid container spacing={2} className="align-items-center">
                             <Grid item xs={6}>
                                 <FormControl className='mr-10' >
-                                    <FormLabel id="demo-radio-buttons-group-label">Choisir Votre montant de quotisation</FormLabel>
+                                    <FormLabel id="demo-radio-buttons-group-label">Choisir Votre montant de cotisation</FormLabel>
                                     <RadioGroup 
                                         aria-labelledby="demo-controlled-radio-buttons-group"
                                         name="montantquotisation"
