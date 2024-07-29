@@ -34,7 +34,7 @@ const Acceuil = () => {
         <Typography component="div">
         <Box className="text-white text-xs font-semibold" sx={{ letterSpacing: 6, m: 1 }} >
           <Link to='/quisommesnous' >
-          Qui sommes nous?
+          Qui sommes-nous?
           </Link>
         </Box>
       </Typography>
