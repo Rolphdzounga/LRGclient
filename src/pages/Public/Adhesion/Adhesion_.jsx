@@ -5,8 +5,6 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import Terminus from './Terminus'
 import styles from "./Username.module.css";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import {
   MenuItem,
   FormControl,
@@ -151,27 +149,15 @@ const soumettreForm = async (data) =>{
       /*const response = await axios.post('http://localhost:8888/api/v1/ajouterAdherent',data )  {`${import.meta.env.VITE_APP_BASE_URL}/adherents`}
       console.log('localhost:8888/api/v1/ajouterAdherent__',response)*/
       const response2 = await axios.put(`${import.meta.env.VITE_APP_BASE_URL}/adherents`,data )
-      console.log('____________response2 err___________',response2.status)
-       telecharger()
+       console.log(response2)
        setCurrentStep(prev=>prev + 1)
        //setCookie('user', 'user', { path: '/' })
       //ignIn({})
-      //localStorage.setItem("token", response.data.accessToken); "adherent_numpieceidentite_key"
+      //localStorage.setItem("token", response.data.accessToken);
     }catch(err){
-        console.log(err)
-        console.log(err.response.data.message || err.response.data.error.original.detail)
-        if(err.response.status == 500 && err.response.data.error.original.constraint == "adherent_numpieceidentite_key" ) return toast.error("Cette pièce d'identité a déjà été renseigné par un autre adherent")
-
-        if(err.response.status == 409 ) return toast.error(err.response.data.message)
-       return toast.error(err.response.data.error.original.detail)
-       /* console.log('____________response2 err___________',err.response.data.error.original.detail)
-        console.log('____________response2 err___________',err.response.status)
-        toast.error(err.response.data.message || err.response.data.error.original.detail)
-        if(err.response.status == 409) toast.error(err.response.data.message || err.response.data.error.original.detail);
-        if(err.response.status == 500) toast.error(err.response.data.error.original.detail);
         if(err && err.instanceof.AxiosError)
             setError(err.response?.data.message)
-        else if (err && err.instanceof.Error) setError(err.message)*/
+        else if (err && err.instanceof.Error) setError(err.message)
     }
 
 }
@@ -179,8 +165,8 @@ const soumettreForm = async (data) =>{
  const handleNextStep = (newData, final = false) =>{
     setData(prev => ({...prev,...newData}))
     if(final){
+        telecharger()
         soumettreForm(data)
-        
     }else{
 
         setCurrentStep(prev=>prev + 1)
@@ -201,7 +187,7 @@ const soumettreForm = async (data) =>{
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
     <Container>
-        <ToastContainer />
+       
       <div className='md:w-5/6 p-10 mx-auto shadow-xl rounded-2xl pb-2 bg-white mt-10'>
       <div className='flex justify-center pb-8'><strong>FORMULAIRE D'ADHESION</strong></div>
         <Stepper activeStep={currentStep} alternativeLabel>
@@ -691,6 +677,11 @@ renderInput={(params) => <TextField2 {...params} label="Province où vous milite
         </Container>
     )
 }
+
+
+
+
+
 const StepTree= (props)=>{
     const handleSubmit = (values) => {
         props.next(values)
