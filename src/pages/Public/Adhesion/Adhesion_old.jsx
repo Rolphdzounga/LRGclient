@@ -349,7 +349,7 @@ const StepOne_ = (props)=>{
 
                             <Grid item xs={12}>
                                 <Grid container spacing={2} className="align-items-center">
-                                    <Grid item xs={12} sm={6} md={4}>
+                                    <Grid item xs={4}>
                                     <Field 
                                         component={DatePicker} 
                                            name="datenaissance"
@@ -360,7 +360,7 @@ const StepOne_ = (props)=>{
 
                                     />   
                                     </Grid>
-                                    <Grid item xs={12} sm={6} md={8}>
+                                    <Grid item xs={8}>
                                         <Grid item  className='w-full'>
                                             <Field
                                             component={TextField}
@@ -394,14 +394,14 @@ const StepOne_ = (props)=>{
                            
                             <Grid item xs={12}>
                                 <Grid container spacing={2} className="align-items-center">
-                                    <Grid item xs={12} sm={6} md={4}>
+                                    <Grid item xs={4}>
                                     <Field component={TextField} name="telephone"
                                             label="Numero de téléphone"
                                             helperText="Saisir votre numéro de téléphone"
                                             fullWidth
                                              />   
                                     </Grid>
-                                    <Grid item xs={12} sm={6} md={8}>
+                                    <Grid item xs={8}>
                                         <Grid item  className='w-full'>
                                             <Field
                                             component={TextField}
@@ -434,7 +434,7 @@ const StepOne_ = (props)=>{
 
                             <Grid item xs={12}>
                                 <Grid container spacing={2} className="align-items-center">
-                                    <Grid item xs={12} sm={6} md={4}>
+                                    <Grid item xs={4}>
                                         <FormControl fullWidth>
                                             <Field
                                                 component={Select}
@@ -454,7 +454,7 @@ const StepOne_ = (props)=>{
                                             </Field>
                                         </FormControl>
                                     </Grid>
-                                    <Grid item xs={12} sm={6} md={8}>
+                                    <Grid item xs={8}>
                                         <MonField c={TextField} n="numpieceidentite" l="Numero piece identité*" />
                                     </Grid>
                                 </Grid>
@@ -515,7 +515,7 @@ const StepTwo = (props)=>{
                                   
 
 <div className="my-4">
-<Grid item xs={12} sm={6} md={4}>
+<Grid item xs={4}>
 <Autocomplete
 onChange={(event, value) => {
     console.log('Autocomplete_',value)
@@ -553,7 +553,7 @@ renderInput={(params) => <TextField2 {...params} label="Province où vous milite
 
 <Grid item xs={12}>
     <Grid container spacing={2} className="align-items-center">
-        <Grid item xs={12} sm={6} >
+        <Grid item xs={6}>
             
 
             <Autocomplete
@@ -576,7 +576,7 @@ renderInput={(params) => <TextField2 {...params} label="Province où vous milite
                 />   
         </Grid>
 
-        <Grid item xs={12} sm={6} >
+        <Grid item xs={6}>
             
                 <Field 
                 component={TextField2} 
@@ -609,7 +609,7 @@ renderInput={(params) => <TextField2 {...params} label="Province où vous milite
 
 <Grid item xs={12} >
     <Grid container spacing={2} className="align-items-center">
-        <Grid item xs={12} sm={6} >
+        <Grid item xs={6}>
             
 
         <Autocomplete
@@ -636,7 +636,7 @@ renderInput={(params) => <TextField2 {...params} label="Province où vous milite
             />
         </Grid>
 
-        <Grid item xs={12} sm={6} >
+        <Grid item xs={6}>
 
             <Grid item xs={12}>
                 <Grid item  className='w-full'>
@@ -655,7 +655,7 @@ renderInput={(params) => <TextField2 {...params} label="Province où vous milite
 </Grid>
 </div>
 <div className="my-4">
-<Grid item xs={12} sm={6} md={8}>
+<Grid item xs={8}>
 
     <Field
     component={TextField2}
@@ -707,7 +707,7 @@ const StepTree= (props)=>{
                         <div className='mt-10 flex flex-col gap-3'>
                         <Grid item xs={12} >
                         <Grid container spacing={2} className="align-items-center">
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={6}>
                                 <FormControl className='mr-10' >
                                     <FormLabel id="demo-radio-buttons-group-label">Choisir Votre montant de cotisation</FormLabel>
                                     <RadioGroup 
@@ -722,7 +722,7 @@ const StepTree= (props)=>{
                                     </RadioGroup>
                                 </FormControl>
                                 </Grid>
-                                <Grid item xs={12} sm={6} md={4}>
+                                <Grid item xs={4}>
                                     <Field 
                                         component={DatePicker} 
                                         format="DD"
