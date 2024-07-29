@@ -1,6 +1,5 @@
 {
   "name": "client",
- 
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -41,6 +40,7 @@
     "react-pro-sidebar": "^1.1.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.25.1",
+    "react-toastify": "^10.0.5",
     "react-use": "^17.5.1",
     "xlsx": "^0.18.5",
     "yup": "^1.4.0"
