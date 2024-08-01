@@ -33,6 +33,7 @@ let logout = () => {
     let token = localStorage.getItem('token')
     return !!token
 }*/
+const isTokenExpired = token => Date.now() >= (JSON.parse(atob(token?.split('.')[1]))).exp * 1000
 let isLogged = () => {
     let token = localStorage.getItem('token')
     
