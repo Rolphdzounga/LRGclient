@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import Header from "./Header";
 import { writeFileXLSX,utils } from "xlsx";
+import { accountService } from "../../../_services/account.service";
 
 const fileExtension = ".xlsx";
 const fileName = "Export Excel";
@@ -100,6 +101,11 @@ console.log('data_____________',data)
 
               
             </Box>
+            <Button  onClick={()=>{
+                accountService.logout()
+                navigate('/')
+              }} >Logout
+            </Button>
     </Box>
   );
 };

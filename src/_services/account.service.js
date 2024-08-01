@@ -29,11 +29,23 @@ let logout = () => {
  * Etat de la présence d'un token en localStorage
  * @returns {boolean}
  */
-let isLogged = () => {
+/*let isLogged = () => {
     let token = localStorage.getItem('token')
     return !!token
-}
+}*/
+let isLogged = () => {
+    let token = localStorage.getItem('token')
+    
+    console.log('isLogged___',token)
 
+    token && console.log('isTokenExpired___',isTokenExpired(token))
+
+    if(token && !isTokenExpired(token)){
+        return true
+    }else{
+        return false
+    }
+}
 /**
  * Récupération brut du token en localStorage
  * @returns {string}

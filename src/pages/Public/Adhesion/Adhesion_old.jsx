@@ -148,8 +148,6 @@ const soumettreForm = async (data) =>{
     console.log('___Form envoyé___',data)
     //const data1 = {...data,dateAdhesion:new }
     try{
-      /*const response = await axios.post('http://localhost:8888/api/v1/ajouterAdherent',data )  {`${import.meta.env.VITE_APP_BASE_URL}/adherents`}
-      console.log('localhost:8888/api/v1/ajouterAdherent__',response)*/
       const response2 = await axios.put(`${import.meta.env.VITE_APP_BASE_URL}/adherents`,data )
       console.log('____________response2 err___________',response2.status)
        telecharger()
